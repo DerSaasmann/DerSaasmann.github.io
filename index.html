@@ -3,9 +3,12 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dönerdienstag</title>
-    <meta name="description" content="Ist heute Dönerdienstag? Finde es heraus!">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🎂 Alles Gute zum Geburtstag, Amelie!</title>
+    <meta name="description" content="Alles Gute zum Geburtstag, Amelie!">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -13,86 +16,571 @@
             box-sizing: border-box;
         }
 
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
         body {
-            min-height: 100vh;
-            background-color: #000000;
+            min-height: 100dvh;
+            background: linear-gradient(135deg, #1a0533 0%, #2d1b69 30%, #6b21a8 60%, #ec4899 100%);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            font-family: Helvetica, Arial, sans-serif;
+            font-family: 'Outfit', sans-serif;
             color: #ffffff;
             text-align: center;
-            padding: 2rem;
+            padding: 1.5rem;
+            position: relative;
         }
 
-        .container {
+        /* Animated gradient background */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(236, 72, 153, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 50% 80%, rgba(59, 130, 246, 0.3) 0%, transparent 50%);
+            animation: bgPulse 8s ease-in-out infinite alternate;
+            z-index: 0;
+        }
+
+        @keyframes bgPulse {
+            0% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.1); }
+            100% { opacity: 0.7; transform: scale(1.05); }
+        }
+
+        /* Floating particles in background */
+        .particles {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0;
+            animation: floatUp linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% {
+                opacity: 0;
+                transform: translateY(100vh) scale(0);
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-20vh) scale(1);
+            }
+        }
+
+        /* Canvas for confetti */
+        #confettiCanvas {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Main content */
+        .content {
+            position: relative;
+            z-index: 2;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 3rem;
+            gap: 1.5rem;
+            max-width: 700px;
+            width: 100%;
         }
 
-        .question {
-            font-size: clamp(4rem, 12vw, 10rem);
+        /* Cake emoji */
+        .cake-emoji {
+            font-size: clamp(4rem, 15vw, 8rem);
+            animation: bounce 2s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px rgba(236, 72, 153, 0.6));
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        /* Greeting text */
+        .greeting {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(1.2rem, 4vw, 1.8rem);
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.85);
+            animation: fadeInDown 1s ease-out 0.3s both;
+        }
+
+        .name {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(3rem, 12vw, 7rem);
             font-weight: 700;
-            letter-spacing: 0.02em;
+            background: linear-gradient(135deg, #fbbf24, #f472b6, #a78bfa, #60a5fa);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 1s ease-out 0.6s both, gradientShift 4s ease-in-out infinite;
+            filter: drop-shadow(0 0 30px rgba(244, 114, 182, 0.4));
             line-height: 1.3;
         }
 
-        .answer {
-            font-size: clamp(4rem, 12vw, 10rem);
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            transition: opacity 0.5s ease;
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
 
-        .answer.yes {
+        .subtitle {
+            font-size: clamp(1rem, 3vw, 1.4rem);
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.7);
+            animation: fadeInUp 1s ease-out 0.9s both;
+            line-height: 1.6;
+        }
+
+        /* Decorative stars */
+        .stars {
+            display: flex;
+            gap: 1rem;
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            animation: fadeInUp 1s ease-out 1.2s both;
+        }
+
+        .stars span {
+            animation: sparkle 1.5s ease-in-out infinite;
+        }
+
+        .stars span:nth-child(2) { animation-delay: 0.3s; }
+        .stars span:nth-child(3) { animation-delay: 0.6s; }
+        .stars span:nth-child(4) { animation-delay: 0.9s; }
+        .stars span:nth-child(5) { animation-delay: 1.2s; }
+
+        @keyframes sparkle {
+            0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
+            50% { transform: scale(1.3) rotate(15deg); opacity: 0.7; }
+        }
+
+        /* Sound toggle button */
+        .sound-toggle {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.4rem;
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+
+        .sound-toggle:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(1.1);
+        }
+
+        .sound-toggle:active {
+            transform: scale(0.95);
+        }
+
+        /* Start overlay — user needs to interact to allow audio */
+        .start-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            background: linear-gradient(135deg, #1a0533 0%, #2d1b69 40%, #6b21a8 70%, #ec4899 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            cursor: pointer;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+
+        .start-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .start-overlay .tap-text {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(1.2rem, 4vw, 1.8rem);
+            color: rgba(255, 255, 255, 0.85);
+            letter-spacing: 0.1em;
             animation: pulse 2s ease-in-out infinite;
         }
 
+        .start-overlay .gift-emoji {
+            font-size: clamp(5rem, 20vw, 10rem);
+            animation: bounce 2s ease-in-out infinite;
+        }
+
         @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
 
-            0%,
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-            50% {
-                opacity: 0.85;
-                transform: scale(1.02);
-            }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive tweaks */
+        @media (max-width: 480px) {
+            body { padding: 1rem; }
+            .content { gap: 1rem; }
+        }
+
+        @media (min-height: 700px) {
+            .content { gap: 2rem; }
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <h1 class="question">Ist heute Dönerdienstag?</h1>
-        <p id="answer" class="answer"></p>
+    <!-- Start overlay for user interaction (enables audio) -->
+    <div class="start-overlay" id="startOverlay">
+        <div class="gift-emoji">🎁</div>
+        <div class="tap-text">Tippe um zu öffnen ✨</div>
     </div>
 
-    <script>
-        function checkDoenerdienstag() {
-            const today = new Date();
-            const dayOfWeek = today.getDay(); // 0 = Sonntag, 1 = Montag, 2 = Dienstag, ...
-            const answerElement = document.getElementById('answer');
+    <!-- Floating particles -->
+    <div class="particles" id="particles"></div>
 
-            if (dayOfWeek === 2) {
-                answerElement.textContent = 'Ja!';
-                answerElement.classList.add('yes');
-            } else {
-                answerElement.textContent = 'Nein';
-                answerElement.classList.remove('yes');
+    <!-- Confetti canvas -->
+    <canvas id="confettiCanvas"></canvas>
+
+    <!-- Main content -->
+    <div class="content">
+        <div class="cake-emoji">🎂</div>
+        <p class="greeting">Alles Gute zum Geburtstag</p>
+        <h1 class="name">Amelie</h1>
+        <p class="subtitle">Feier schön und genieß deinen besonderen Tag! 🥳</p>
+        <div class="stars">
+            <span>🎈</span>
+            <span>⭐</span>
+            <span>🎉</span>
+            <span>⭐</span>
+            <span>🎈</span>
+        </div>
+    </div>
+
+    <!-- Sound toggle -->
+    <button class="sound-toggle" id="soundToggle" title="Sound an/aus">🔊</button>
+
+    <script>
+        // ============================================
+        // CONFETTI SYSTEM
+        // ============================================
+        const canvas = document.getElementById('confettiCanvas');
+        const ctx = canvas.getContext('2d');
+        let confettiPieces = [];
+        let animationRunning = false;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const confettiColors = [
+            '#f472b6', '#a78bfa', '#60a5fa', '#34d399',
+            '#fbbf24', '#fb923c', '#f87171', '#e879f9',
+            '#38bdf8', '#4ade80', '#facc15', '#fb7185'
+        ];
+
+        class ConfettiPiece {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * -canvas.height;
+                this.size = Math.random() * 8 + 4;
+                this.speedY = Math.random() * 3 + 1.5;
+                this.speedX = Math.random() * 2 - 1;
+                this.rotation = Math.random() * 360;
+                this.rotationSpeed = Math.random() * 6 - 3;
+                this.color = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+                this.shape = Math.floor(Math.random() * 3); // 0=rect, 1=circle, 2=star
+                this.wobble = Math.random() * 10;
+                this.wobbleSpeed = Math.random() * 0.05 + 0.02;
+                this.opacity = Math.random() * 0.5 + 0.5;
+            }
+
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX + Math.sin(this.wobble) * 0.5;
+                this.rotation += this.rotationSpeed;
+                this.wobble += this.wobbleSpeed;
+
+                if (this.y > canvas.height + 20) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate((this.rotation * Math.PI) / 180);
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = this.color;
+
+                if (this.shape === 0) {
+                    // Rectangle
+                    ctx.fillRect(-this.size / 2, -this.size / 4, this.size, this.size / 2);
+                } else if (this.shape === 1) {
+                    // Circle
+                    ctx.beginPath();
+                    ctx.arc(0, 0, this.size / 2, 0, Math.PI * 2);
+                    ctx.fill();
+                } else {
+                    // Star / triangle
+                    ctx.beginPath();
+                    ctx.moveTo(0, -this.size / 2);
+                    ctx.lineTo(this.size / 2, this.size / 2);
+                    ctx.lineTo(-this.size / 2, this.size / 2);
+                    ctx.closePath();
+                    ctx.fill();
+                }
+
+                ctx.restore();
             }
         }
 
-        // Initial check
-        checkDoenerdienstag();
+        function initConfetti() {
+            const count = window.innerWidth < 600 ? 80 : 150;
+            confettiPieces = [];
+            for (let i = 0; i < count; i++) {
+                confettiPieces.push(new ConfettiPiece());
+            }
+        }
 
-        // Check every minute in case the day changes while viewing
-        setInterval(checkDoenerdienstag, 60000);
+        function animateConfetti() {
+            if (!animationRunning) return;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            confettiPieces.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateConfetti);
+        }
+
+        // ============================================
+        // FLOATING PARTICLES
+        // ============================================
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const count = window.innerWidth < 600 ? 12 : 20;
+            const colors = ['#f472b6', '#a78bfa', '#60a5fa', '#fbbf24', '#34d399'];
+
+            for (let i = 0; i < count; i++) {
+                const p = document.createElement('div');
+                p.classList.add('particle');
+                const size = Math.random() * 10 + 4;
+                p.style.width = size + 'px';
+                p.style.height = size + 'px';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.background = colors[Math.floor(Math.random() * colors.length)];
+                p.style.animationDuration = (Math.random() * 8 + 6) + 's';
+                p.style.animationDelay = (Math.random() * 10) + 's';
+                container.appendChild(p);
+            }
+        }
+        createParticles();
+
+        // ============================================
+        // SOUND EFFECTS (Web Audio API — no external files)
+        // ============================================
+        let audioCtx = null;
+        let soundEnabled = true;
+
+        function initAudio() {
+            if (audioCtx) return;
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+
+        function playNote(freq, startTime, duration, type = 'sine', volume = 0.08) {
+            if (!audioCtx || !soundEnabled) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, startTime);
+            gain.gain.setValueAtTime(0, startTime);
+            gain.gain.linearRampToValueAtTime(volume, startTime + 0.02);
+            gain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
+
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            osc.start(startTime);
+            osc.stop(startTime + duration);
+        }
+
+        function playBirthdayMelody() {
+            if (!audioCtx || !soundEnabled) return;
+
+            const now = audioCtx.currentTime;
+            // Happy Birthday melody (simplified, key of C)
+            // "Happy birthday to you, happy birthday to you,
+            //  happy birthday dear Amelie, happy birthday to you"
+            const notes = [
+                // "Hap-py birth-day to you"
+                { f: 262, t: 0,    d: 0.3 },  // C4
+                { f: 262, t: 0.35, d: 0.15 }, // C4
+                { f: 294, t: 0.55, d: 0.5 },  // D4
+                { f: 262, t: 1.1,  d: 0.5 },  // C4
+                { f: 349, t: 1.65, d: 0.5 },  // F4
+                { f: 330, t: 2.2,  d: 0.9 },  // E4
+
+                // "Hap-py birth-day to you"
+                { f: 262, t: 3.3,  d: 0.3 },  // C4
+                { f: 262, t: 3.65, d: 0.15 }, // C4
+                { f: 294, t: 3.85, d: 0.5 },  // D4
+                { f: 262, t: 4.4,  d: 0.5 },  // C4
+                { f: 392, t: 4.95, d: 0.5 },  // G4
+                { f: 349, t: 5.5,  d: 0.9 },  // F4
+
+                // "Hap-py birth-day dear A-me-lie"
+                { f: 262, t: 6.6,  d: 0.3 },  // C4
+                { f: 262, t: 6.95, d: 0.15 }, // C4
+                { f: 523, t: 7.15, d: 0.5 },  // C5
+                { f: 440, t: 7.7,  d: 0.5 },  // A4
+                { f: 349, t: 8.25, d: 0.4 },  // F4
+                { f: 330, t: 8.7,  d: 0.4 },  // E4
+                { f: 294, t: 9.15, d: 0.7 },  // D4
+
+                // "Hap-py birth-day to you"
+                { f: 466, t: 10.1, d: 0.3 },  // Bb4
+                { f: 466, t: 10.45,d: 0.15 }, // Bb4
+                { f: 440, t: 10.65,d: 0.5 },  // A4
+                { f: 349, t: 11.2, d: 0.5 },  // F4
+                { f: 392, t: 11.75,d: 0.5 },  // G4
+                { f: 349, t: 12.3, d: 1.0 },  // F4
+            ];
+
+            // Main melody with a brighter tone
+            notes.forEach(n => {
+                playNote(n.f, now + n.t, n.d, 'triangle', 0.10);
+            });
+
+            // Soft harmonic layer
+            notes.forEach(n => {
+                playNote(n.f * 2, now + n.t, n.d * 0.6, 'sine', 0.03);
+            });
+
+            // Little chime at end
+            setTimeout(() => {
+                if (!soundEnabled) return;
+                const t = audioCtx.currentTime;
+                [523, 659, 784, 1047].forEach((f, i) => {
+                    playNote(f, t + i * 0.15, 0.8, 'sine', 0.06);
+                });
+            }, 13500);
+        }
+
+        function playPopSound() {
+            if (!audioCtx || !soundEnabled) return;
+            const now = audioCtx.currentTime;
+            playNote(800 + Math.random() * 400, now, 0.1, 'sine', 0.04);
+        }
+
+        // Toggle sound
+        const soundToggle = document.getElementById('soundToggle');
+        soundToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            soundEnabled = !soundEnabled;
+            soundToggle.textContent = soundEnabled ? '🔊' : '🔇';
+        });
+
+        // ============================================
+        // START — user taps to begin
+        // ============================================
+        const overlay = document.getElementById('startOverlay');
+        let started = false;
+
+        overlay.addEventListener('click', () => {
+            if (started) return;
+            started = true;
+
+            // Hide overlay
+            overlay.classList.add('hidden');
+
+            // Init audio & play melody
+            initAudio();
+            playBirthdayMelody();
+
+            // Pop sounds for confetti start
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => playPopSound(), i * 80);
+            }
+
+            // Start confetti
+            initConfetti();
+            animationRunning = true;
+            animateConfetti();
+
+            // Burst confetti on tap
+            document.body.addEventListener('click', () => {
+                playPopSound();
+                for (let i = 0; i < 15; i++) {
+                    const p = new ConfettiPiece();
+                    p.y = canvas.height * 0.3 + Math.random() * canvas.height * 0.4;
+                    p.x = Math.random() * canvas.width;
+                    p.speedY = -(Math.random() * 3 + 1);
+                    confettiPieces.push(p);
+                }
+                // Clean up extra pieces after awhile
+                setTimeout(() => {
+                    if (confettiPieces.length > 300) {
+                        confettiPieces.splice(0, confettiPieces.length - 150);
+                    }
+                }, 3000);
+            });
+        });
+
+        // Also handle touch for mobile
+        overlay.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            overlay.click();
+        });
     </script>
 </body>
 
